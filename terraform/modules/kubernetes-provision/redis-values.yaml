@@ -1,0 +1,91 @@
+
+serviceAccount:
+  create: true
+  name: "redis"
+  automountServiceAccountToken: true
+
+minAvailable: "2"
+
+maxUnavailable: "1"
+
+usePassword: true
+
+password: ""
+
+service:
+  ports:
+    redis: 6379
+  type: ClusterIP
+
+persistence:
+  enabled: true
+  path: /redis/data
+  storageClass: "redis"
+  accessModes:
+    - ReadWriteOnce
+  size: 8Gi
+
+persistentVolumeClaimRetentionPolicy:
+  enabled: true
+  whenScaled: Retain
+  whenDeleted: Retain
+
+redis:
+  updateStrategy:
+    type: RollingUpdate
+    ## https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#partitions
+    rollingUpdate:
+      partition: 0
+
+  useAOFPersistence: "yes"
+  containerPorts:
+    redis: 6379
+    bus: 16379
+
+  livenessProbe:
+    enabled: true
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    timeoutSeconds: 5
+    successThreshold: 1
+    failureThreshold: 5
+
+  readinessProbe:
+    enabled: true
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    timeoutSeconds: 1
+    successThreshold: 1
+    failureThreshold: 5
+
+  tolerations:
+    - key : "dedicated"
+      operator : "Equal"
+      value : "redis"
+      effect : "NoSchedule"
+
+  resources:
+    requests:
+      cpu: 500m
+      memory: 1Gi
+    limits: {}
+
+## Cluster settings
+
+cluster:
+  ## cluster.init Enable the initialization of the Redis Cluster
+  init: true
+  ## nodes = numberOfMasterNodes + numberOfMasterNodes * replicas
+  ## The number of master nodes should always be >= 3, otherwise cluster creation will fail
+  nodes: 6
+  replicas: 1
+
+#https://medium.com/zero-to/setup-persistence-redis-cluster-in-kubertenes-7d5b7ffdbd98
+
+#When terminated, data will be purged from memory. But depending on the use case, data can be persisted either by taking a snapshot of the data and dumping it on disk periodically or by maintaining an append-only log of all operations.
+#The goal of Redis Virtual Memory (VM) is to swap infrequently-accessed data from RAM to disk
+#it uses replication asynchronous to replicate data between master and replicas
+#The minimal cluster that works as expected requires to contain at least three master nodes in the cluster, and Redis recommendation is to have at least one slave for each master.
+#Minimum three machines
+#Minimum 3 Redis master nodes on separate machines (sharding)
+#Minimum 3 Redis slaves, one slave per master (to allow minimal fail-over mechanism).
