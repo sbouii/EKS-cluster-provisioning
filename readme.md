@@ -20,7 +20,7 @@ terraform apply
 
 Terraform code contains 4 modules:
 
-   vpc: to set up VPC with single region multi-AZs architecture.
+   vpc: to set up VPC with single region multi-AZ architecture.
    
    eks: to deploy EKS cluster in the VPC.
    
@@ -34,7 +34,7 @@ For EKS nodes scaling, cluster-autoscaler is used to scale-out or scale-in numbe
 
 The subnets are spread across the 3 availability zones of AWS region in case of AZ outage or for disaster recovery strategies.
 
-Instead of deploying one single NAT Gateway to route traffic, 3 NAT Gateways are provisioned, one in each availability zone.  
+Instead of deploying one single NAT Gateway to route traffic, 3 NAT Gateways are provisioned, one in each availability zone to ensure zone-independent architecture.
 
 For avoiding resources throttling at the nodes level, we set resources limits for the pods.
 
@@ -65,9 +65,9 @@ Also when enabling the replication, you have separate write endpoint for write o
 the load on the master node.
 
 Although the replication is asynchronous, so it doesn't guarantee strong consistency for read requests (in case a master node crashes before propagating the
-writes to the replica)
+writes to the replica).
 
-The minimal Redis cluster that works as expected requires to contain at least three master nodes in the cluster and at least one slave for each master.
+The minimal Redis cluster that works as expected requires to contain at least three master nodes in the cluster and at least one slave for each master 
 (to allow minimal fail-over mechanism).
 
 Also with cluster mode enabled, you have the possibility to scale in or out easily by adding or removing shards.
