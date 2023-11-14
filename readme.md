@@ -1,11 +1,11 @@
-# Description:
+## Description:
  Terraform stack to run Redis Cluster on EKS Cluster.
 
-# Dependencies:
+## Dependencies:
 - terraform >= 1.0
 - aws access configured
 
-#Usage:
+## Usage:
 '''
 cd terraform/
 terraform init
@@ -13,7 +13,7 @@ terraform plan
 terraform apply
 '''
 
-##Infrastructure Architecture:
+## Infrastructure Architecture:
 
 Terraform code contains 4 modules:
    vpc:  TO set up VPC with single region multi-AZs architecture.
@@ -37,7 +37,7 @@ Redis pods are scheduled on memory optimised instances while the rest of the pod
 
 For encrypting k8s nodes EBS volumes instead of using default kms keys, dedicated Customer KMS key is created.
 
-##Redis Cluster Architecture:  
+## Redis Cluster Architecture:  
 
 Redis Cluster is deployed on EKS cluster as Helm chart through Terraform Helm provider.
 
@@ -84,13 +84,13 @@ RDB persistence performs point-in-time snapshots of your dataset at specified in
 
 AOF persistence logs every write operation received by the server.
 
-##CI/CD solution to release updates to Redis Cluster:
+## CI/CD solution to release updates to Redis Cluster:
 
 The helm chart offers the PodDistributionBudget feature which allows to rollout deployment with zero downtime.
 You specify maximum unavailable pods and/or the minimum available ones during deployment restart/rollout. This guarantees
 that there will be always enough pods available during the update process.
 
-##Observability:
+## Observability:
 
 We can use prometheus operator to scrape metrics from Redis Pods. The chart offers running an exporter called redis-exporter as as a side car to Redis Pod.
 More details about metrics scraping configuration : https://github.com/bitnami/charts/tree/main/bitnami/redis-cluster#metrics-sidecar-parameters
