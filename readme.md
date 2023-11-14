@@ -20,13 +20,13 @@ terraform apply
 
 Terraform code contains 4 modules:
 
-   vpc:  TO set up VPC with single region multi-AZs architecture.
+   vpc: to set up VPC with single region multi-AZs architecture.
    
-   eks:  TO deploy EKS cluster in the VPC.
+   eks: to deploy EKS cluster in the VPC.
    
-   irsa: TO create necessary IAM roles with the required permissions.  
+   irsa: to create necessary IAM roles with the required permissions.  
    
-   kubernetes-provision: TO deploy kubernetes resources in EKS cluster
+   kubernetes-provision: to deploy kubernetes resources in EKS cluster
 
 ### Scalability/Availability and Security measures:
 
