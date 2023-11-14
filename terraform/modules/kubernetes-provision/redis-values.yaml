@@ -15,6 +15,8 @@ service:
   ports:
     redis: 6379
   type: ClusterIP
+  labels:
+    app: redis
 
 persistence:
   enabled: true
@@ -71,8 +73,24 @@ redis:
       cpu: 1
       memory: 4Gi
 
-## Cluster settings
+metrics:
+  image:
+    registry: docker.io
+    repository: bitnami/redis-exporter
+    tag: 1.55.0-debian-11-r2
+    digest: ""
+    pullPolicy: IfNotPresent
+    podAnnotations:
+      prometheus.io/scrape: "true"
+      prometheus.io/port: "9121"
+    #enable serviceMonitor when using Prometheus Operator
+    serviceMonitor:
+      enabled: true
+      namespace: redis
+      selector:
+        app: redis
 
+## Cluster settings
 cluster:
   ## cluster.init Enable the initialization of the Redis Cluster
   init: true
