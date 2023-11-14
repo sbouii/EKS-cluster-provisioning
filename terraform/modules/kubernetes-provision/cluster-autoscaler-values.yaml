@@ -3,8 +3,21 @@ autoDiscovery:
 awsRegion: ${region}
 rbac:
   serviceAccount:
-     create: true
-     name:   cluster-autoscaler
-     annotations: {
+    create: true
+    name:   cluster-autoscaler
+    annotations: {
         eks.amazonaws.com/role-arn: "arn:aws:iam::${account_id}:role/cluster-autoscaler"
-     }
+    }
+resources:
+  requests:
+    cpu: 500m
+    memory: 500Mi
+  limits:
+    cpu: 1
+    memory: 1Gi
+
+tolerations:
+  - key : "dedicated"
+    operator : "Equal"
+    value : "infra"
+    effect : "NoSchedule"

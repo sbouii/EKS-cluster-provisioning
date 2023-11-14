@@ -4,12 +4,11 @@ serviceAccount:
   name: "redis"
   automountServiceAccountToken: true
 
+#PodDistributionBudget Configuration
 minAvailable: "2"
-
 maxUnavailable: "1"
 
 usePassword: true
-
 password: ""
 
 service:
@@ -68,7 +67,9 @@ redis:
     requests:
       cpu: 500m
       memory: 1Gi
-    limits: {}
+    limits:
+      cpu: 1
+      memory: 4Gi
 
 ## Cluster settings
 
@@ -79,13 +80,3 @@ cluster:
   ## The number of master nodes should always be >= 3, otherwise cluster creation will fail
   nodes: 6
   replicas: 1
-
-#https://medium.com/zero-to/setup-persistence-redis-cluster-in-kubertenes-7d5b7ffdbd98
-
-#When terminated, data will be purged from memory. But depending on the use case, data can be persisted either by taking a snapshot of the data and dumping it on disk periodically or by maintaining an append-only log of all operations.
-#The goal of Redis Virtual Memory (VM) is to swap infrequently-accessed data from RAM to disk
-#it uses replication asynchronous to replicate data between master and replicas
-#The minimal cluster that works as expected requires to contain at least three master nodes in the cluster, and Redis recommendation is to have at least one slave for each master.
-#Minimum three machines
-#Minimum 3 Redis master nodes on separate machines (sharding)
-#Minimum 3 Redis slaves, one slave per master (to allow minimal fail-over mechanism).
