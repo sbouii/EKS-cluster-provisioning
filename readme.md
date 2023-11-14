@@ -28,7 +28,7 @@ Terraform code contains 4 modules:
    
    kubernetes-provision: to deploy kubernetes resources in EKS cluster
 
-### Scalability/Availability and Security measures:
+#### Scalability/Availability and Security measures:
 
 For EKS nodes scaling, cluster-autoscaler is used to scale-out or scale-in number of nodes within a node group based on the load.
 
