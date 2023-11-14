@@ -16,9 +16,13 @@ terraform apply
 ## Infrastructure Architecture:
 
 Terraform code contains 4 modules:
+
    vpc:  TO set up VPC with single region multi-AZs architecture.
+   
    eks:  TO deploy EKS cluster in the VPC.
+   
    irsa: TO create necessary IAM roles with the required permissions.  
+   
    kubernetes-provision: TO deploy kubernetes resources in EKS cluster
 
 Scalability/Availability and Security measures:
@@ -75,8 +79,7 @@ In both architectures, it's recommended to enable data persistence:
 
 Since Redis is in-memory store, it means if the master pods restarted or crashed, the data will get lost.
 
-By default the chart will create hostPath persistent volume when you don't specify a storage class. But it's recommended to configure your own storage class in order to
-dynamically provision persistent volumes for Redis pods. In the case study, we used AWS-EBS as the storage class for PVS provisioning.
+By default the chart will create hostPath persistent volume when you don't specify a storage class. But it's recommended to configure your own storage class in order to dynamically provision persistent volumes for Redis pods. In the case study, we used AWS-EBS as the storage class for PVS provisioning.
 
 Redis uses RDB(Redis Database) and AOF (Append Only File) mechanisms to persist data to disk space:
 
