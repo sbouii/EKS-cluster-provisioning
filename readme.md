@@ -6,8 +6,7 @@
 - aws access configured
 
 ## Usage:
-'''
-
+```
 cd terraform/
 
 terraform init
@@ -15,8 +14,7 @@ terraform init
 terraform plan
 
 terraform apply
-
-'''
+```
 
 ## Infrastructure Architecture:
 
