@@ -54,6 +54,10 @@ For encrypting k8s nodes EBS volumes instead of using default kms keys, dedicate
 
 Redis Cluster is deployed on EKS cluster as Helm chart through Terraform Helm provider.
 
+<div align="center">
+    <img src="Redis Cluster Architecture.png" width="400px"</img> 
+</div>
+
 The cluster is deployed as statefulSet since Redis is considered as stateful application that requires each pod to have its own persistent storage.
 
 There is two different architectures to deploy Redis on top of Kubernetes Cluster:
