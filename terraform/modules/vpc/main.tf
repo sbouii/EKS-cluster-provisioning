@@ -25,9 +25,7 @@ module "vpc" {
   # three subnets in each availability zone
   public_subnets   = [for k, v in local.availability_zones : cidrsubnet(var.vpc_cidr, 8, k)]
   private_subnets  = [for k, v in local.availability_zones : cidrsubnet(var.vpc_cidr, 8, k + 3)]
-  database_subnets = [for k, v in local.availability_zones : cidrsubnet(var.vpc_cidr, 8, k + 6)]
 
-  create_database_subnet_group = true
   enable_nat_gateway           = true
   single_nat_gateway           = false
   one_nat_gateway_per_az       = true
