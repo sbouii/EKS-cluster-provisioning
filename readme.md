@@ -1,8 +1,8 @@
 ## Description:
- Terraform stack to run Redis Cluster on EKS Cluster.
+ Infrastructure as code stack to provision EKS Cluster.
 
 ## Dependencies:
-- terraform >= 1.0
+- kubernetes >= 1.3
 - aws access configured
 
 ## Usage:
@@ -18,7 +18,7 @@ terraform apply
 
 ## Infrastructure Architecture:
 
-Terraform code contains 4 modules:
+Infrastructure as code contains 4 modules:
 
    vpc: to set up VPC with single region multi-AZ architecture.
    
